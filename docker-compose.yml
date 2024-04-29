@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  golang:
+    logging:
+          driver: "json-file"
+          options:
+            max-size: "50m"
+    container_name: logger-golang-container
+    build:
+      context: ./golang
+      dockerfile: Dockerfile
+      target: dev
+    volumes:
+      - "./golang:/app/"
+    ports:
+      - "8080:8080"
+
+  
+  mongo:
+    logging:
+        driver: "json-file"
+        options:
+          max-size: "50m"
+    container_name: logger-mongo-container
+    build:
+      context: ./mongo
+      dockerfile: Dockerfile
+    env_file:
+      - ./mongo/.env
+    restart: unless-stopped
+    ports:
+      - "44443:27017"
+    volumes:
+      - mongo:/data/db
+
+  redis:
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "50m"
+      container_name: logger-redis-container
+      build:
+        context: ./redis
+        dockerfile: Dockerfile
+      restart: unless-stopped
+      ports:
+        - "44442:6379"
+
+volumes:
+  mongo:
+    driver: local

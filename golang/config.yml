@@ -1,0 +1,12 @@
+db:
+  host: "mongo"
+  port: "27017"
+  name: "logger"
+  userName: "user"
+  password: "pass"
+
+redis: 
+  host: "redis"
+  port: "6379"
+  password: "11111111"
+  DB: 0
